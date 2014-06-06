@@ -1,0 +1,24 @@
+ru:
+  activemodel:
+    errors:
+      models:
+        suppliers/TODO:
+          attributes:
+            TODO:
+              TODO: "TODO"
+  activerecord:
+    attributes:
+      models:
+        suppliers/TODO:
+          TODO: "TODO"
+    errors:
+      models:
+        suppliers/TODO:
+          attributes:
+            TODO:
+              TODO: "TODO."
+    models:
+      suppliers/TODO: "TODO"
+  controllers:
+    suppliers/api/v1/TODO:
+      TODO: "TODO."

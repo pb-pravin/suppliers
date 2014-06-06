@@ -1,0 +1,17 @@
+Description:
+
+    Initializes the suppliers plugin in the main app.
+
+Example:
+
+    rails g suppliers:install
+
+    As a result:
+
+        It creates the config/initializers/suppliers.rb
+
+        Plugin migrations will be copied to db/migrate/
+
+        Migrations will be run (it with change the db/schema.rb)
+
+        Routes will be mounted to "suppliers/" (it will change the config/routes.rb)

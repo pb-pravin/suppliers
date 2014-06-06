@@ -1,0 +1,116 @@
+= Suppliers
+
+{<img src="http://img.shields.io/github/release/nepalez/suppliers.svg?style=flat" alt="Current Release" />}[https://github.com/nepalez/suppliers]
+{<img src="http://img.shields.io/travis/nepalez/suppliers.svg?style=flat" alt="Bild Status" />}[https://travis-ci.org/nepalez/suppliers]
+{<img src="http://img.shields.io/codeclimate/github/nepalez/suppliers.svg?style=flat" alt="Code Metrics" />}[https://codeclimate.com/github/nepalez/suppliers]
+{<img src="http://img.shields.io/gemnasium/nepalez/suppliers.svg?style=flat" alt="Dependency Status" />}[https://gemnasium.com/nepalez/suppliers]
+{<img src="http://img.shields.io/coveralls/nepalez/suppliers.svg?style=flat" alt="Coverage Status" />}[https://coveralls.io/r/nepalez/suppliers]
+{<img src="http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat" alt="License" />}[https://github.com/nepalez/suppliers/blob/master/LICENSE.rdoc]
+
+== О модуле
+
+Содержит программный интерфейс API для ведения справочника поставщиков.
+
+== Функционал
+
+Программный интерфейс (API) модуля обеспечивает возможность работы с данными
+с помощью запросов к серверу в формате JSON.
+
+API обеспечивает доступ к данным как интерфейсам пользователя (UI), так и 
+сторонним сервисам (учетные системы, загрузчики и парсеры данных и т.п.).
+
+=== Классы и модули
+
+API модуля объявляет:
+
+* Модель поставщиков и их подразделений <tt>Suppliers::Item</tt> - иерархический
+  список.
+
+Поставщик (подразделение поставщика) имеет следующие атрибуты:
+
+* <tt>name</tt> - полное наименование;
+* <tt>code</tt> - краткое наименование;
+* <tt>number</tt> - номер;
+* <tt>parent</tt> - ссылку на вышестоящее подразделение (департамент и т.п.).
+
+Все поля, за исключением названия - необязательны.
+
+=== JSON API
+
+JSON API модуля поддерживает следующие операции:
+
+* просмотр иерархического списка поставщиков;
+* регистрация поставщика;
+* регистрация подразделения поставщика;
+* просмотр информации о поставщике;
+* редактирование информации о поставщике;
+* перенос поставщиков в состав указанного подразделения;
+* удаление поставщика, на которого нет ссылок в базе данных;
+* объединение нескольких поставщиков в одну запись.
+
+Подробнее см. {документацию по API}[http://docs.suppliers.apiary.io/].
+
+== Установка модуля
+
+Процесс установки модуля включает следующие этапы:
+
+=== Подключение модуля
+
+Добавьте строку в Gemfile:
+
+    gem "suppliers", git: "https://github.com/nepalez/suppliers"
+
+Или скачайте модуль и установите его в свое приложение.
+
+ОБРАТИТЕ ВНИМАНИЕ!
+
+Поскольку модуль является частью большого приложения, я не планирую
+публиковать gem и не гарантирую, что проект со временем не будет
+удален с Github. Если модуль нужен в вашем приложении,
+перенесите его к себе:
+
+    git clone https://github.com/nepalez/suppliers.git
+
+=== Установка модуля
+
+Запустите в командной строке:
+
+    rails g suppliers:install
+
+Список изменений, вносимых в код приложения доступен по команде:
+
+    rails g suppliers:install --help
+
+=== Монтирование маршрутов в приложение
+
+Чтобы адреса API модуля были доступны в приложении, они монтируются
+в соответствующее поле имен в файле <tt>config/routes.rb</tt>.
+
+По умолчанию маршруты монтируются <tt>suppliers</tt>.
+Эта настройка может быть изменена:
+
+    # config/routes.rb
+    Rails.application.routes.draw do
+
+      # Другие маршруты модуля
+
+      mount Suppliers::Engine => "/suppliers"
+    end
+
+== Удаление модуля
+
+Перед удалением модуля из Gemfile запустите в командной строке:
+
+    rails g suppliers:uninstall
+
+Список изменений, вносимых в код приложения доступен по команде:
+
+    rails g suppliers:uninstall --help
+
+== Изменения в версиях
+
+см. файл CHANGELOG[CHANGELOG.rdoc].
+
+== Лицензия
+
+Проект распространяется под {лицензией MIT}[LICENSE.rdoc].

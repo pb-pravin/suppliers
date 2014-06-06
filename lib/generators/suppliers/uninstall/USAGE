@@ -1,0 +1,19 @@
+Description:
+
+    Uninstalls the suppliers plugin
+
+Example:
+
+    rails g suppliers:uninstall
+
+    This will make changes:
+
+        The config/initializers/suppliers.rb will be removed
+
+        The plugin migrations will be rolled back (this will change the db/schema.rb)
+
+        The plugin migrations will be removed from the db/migrate/
+
+        The plugin routes will be dismounted (this will change the config/routes.rb)
+
+        The plugin will be removed from both Gemfile and .gemspec (if exists)
