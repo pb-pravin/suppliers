@@ -1,47 +1,221 @@
 FORMAT: 1A
-HOST: http://www.google.com
 
 # suppliers
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+API для ведения справочника поставщиков оборудования и их подразделений.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Поставщики
+Ресурсы, относящиеся к справочнику поставщиков.
 
-## Notes Collection [/notes]
-### List all Notes [GET]
+## Отбор поставщиков [/api/v1/items{?search,root_id}]
+
+Операции с возможностью отбора поставщиков/подразделений по различным параметрам.
+
++ Parameters
+    + search (string, `труб`) ...строка, содержащаяся в названии, коде или номере записи
+    + root_id (integer, `12`) ...ID записи, среди подразделений которой ведется поиск
+
+### Вывод списка поставщиков [GET]
+
+Возвращает список всех поставщиков и их подразделений - с возможностью отбора по критериям:
+- подстроке наименования, краткого наименования или кода поставщика/департамента отдела;
+- ID записи, ограничивающий список её подразделениями.
+
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+        {
+            "success": true,
+            "data": [
+                {
+                    "id": 12,
+                    "name": "Департамент труб и технологического оборудования",
+                    "code": null,
+                    "number": "004",
+                    "active": false,
+                    "depth": 1,
+                    "parent_id": 1,
+                    "divisions": [14, 15, 22]
+                },
+                {
+                    "id": 15,
+                    "name": "Отдел трубной продукции",
+                    "code": "ТП",
+                    "number": "03",
+                    "active": true,
+                    "depth": 2,
+                    "parent_id": 12,
+                    "divisions": []
+                }
+            ]
+        }
+        
++ Response 404 (application/json)
 
-### Create a Note [POST]
+        {
+            "success": false,
+            "messages": [
+                { "error": "Поставщик/подразделение с ID: 12 не найден." }
+            ],
+            "data": {}
+        }
+
+## Список поставщиков/подразделений [/items]
+
+Операции со списком всех поставщиков подразделений.
+
+### Регистрация поставщика [POST]
+
+Добавляет поставщика в список (верний уровень иерархии).
+
 + Request (application/json)
 
-        { "title": "Buy cheese and bread for breakfast." }
+        {
+            "name": "ОАО 'Главпоставка',
+            "code": "ГП",
+            "number": null,
+            "active": false
+        }
 
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+        {
+            "success": true,
+            "messages": [
+                { "success": "Поставщик ОАО 'Главпоставка' добавлен в справочник." }
+            ],
+            "data": {
+                "id": 3,
+                "name": "ОАО 'Главпоставка',
+                "code": "ГП",
+                "number": null,
+                "active": false,
+                "depth": 0,
+                "parent": null,
+                "divisions": []
+            }
+        }
+        
++ Response 422 (application/json)
 
-## Note [/notes/{id}]
-A single Note object with all its details
+        {
+            "success": false,
+            "messages": [
+                { "error": "Поставщик ОАО 'Главпоставка' уже зарегистрирован." }
+            ],
+            "data": {}
+        }
+        
+### Объединение поставщиков [PUT]
 
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+Объединяет несколько записей справочника. Объединяемые записи упорядочиваются с учетом иерархии, после чего сохраняется только первая запись,
+а прочие удаляются. Перед их удалением все ссылки в базе данных перенаправляются на объединенную запись.
 
-### Retrieve a Note [GET]
++ Request (application/json)
+
+        {
+            "ids": [3, 32, 13]
+        }
+        
 + Response 200 (application/json)
 
-    + Header
+        {
+            "success": true,
+            "messages": [
+                { "success": "Выбранные записи объединены c ОАО 'Главпоставка'." }
+            ],
+            "data": {
+                "id": 3,
+                "name": "ОАО 'Главпоставка'",
+                "code": "ГП",
+                "number": null,
+                "active": false,
+                "depth": 0,
+                "parent": null,
+                "divisions": []
+            }
+        }
+        
++ Response 404 (application/json)
 
-            X-My-Header: The Value
+        {
+            "success": false,
+            "messages": [
+                { "error": "Поставщик/подразделение с ID: 32 не найден." }
+            ],
+            "data": {}
+        }
 
-    + Body
++ Response 422 (application/json)
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+        {
+            "success": false,
+            "messages": [
+                { "error": "Ошибка записи в базу данных." }
+            ],
+            "data": {}
+        }
 
-### Remove a Note [DELETE]
-+ Response 204
+## Поставщик/подразделение [/items/{id}]
+
+Операции с записью из справочника поставщиков/их подразделений.
+
++ Parameters
+    + id (required, integer, `45`) ... ID записи в справочнике поставщиков.
+
+### Просмотр информации о поставщике/подразделении [GET]
+
+Возвращает информацию о поставщике или подразделении, вышестоящем подразделении и списке отделов/подразделений текущей записи.
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "data": {
+                "id": 45,
+                "name": "Департамент АСУ",
+                "code": "АСУ",
+                "number": "008",
+                "active": false,
+                "depth": 1,
+                "parent": {
+                    "id": 3,
+                    "name": "ОАО 'Главпоставка'",
+                    "code": "ГП",
+                    "number": null,
+                    "active": false
+                },
+                "divisions": [
+                    {
+                        "id": 46,
+                        "name": "Отдел автоматизированных информационных управленческих систем",
+                        "code": "АИУС",
+                        "number": "09",
+                        "active": true
+                    },
+                    {
+                        "id": 48,
+                        "name": "Отдел компьютерных сетей и оборудования",
+                        "code": "КСО",
+                        "number": "10",
+                        "active": true
+                    }
+                ]
+            }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "success": false,
+            "messages": [
+                { "error": "Поставщик/подразделение с ID: 45 не найден." }
+            ],
+            "data": {}
+        }
+
+### Редактирование информации о поставщике/подразделении [PATCH]
+
+### Добавление подразделения/отдела [POST]
+
+### Удаление подразделения/отдела [DELETE]
+
+### Перенос подразделений в текущую запись [PUT]
