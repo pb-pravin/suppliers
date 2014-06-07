@@ -2,23 +2,60 @@ ru:
   activemodel:
     errors:
       models:
-        suppliers/TODO:
+        suppliers/create_item:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/delete_item:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/get_item:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/get_items:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/merge_items:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/move_items:
+          attributes:
+            TODO:
+              TODO: "TODO"
+        suppliers/update_item:
           attributes:
             TODO:
               TODO: "TODO"
   activerecord:
     attributes:
       models:
-        suppliers/TODO:
-          TODO: "TODO"
+        suppliers/item:
+          active: "Выбор разрешен"
+          code: "Код (аббревиатура)"
+          name: "Название"
+          parent: "Вышестояще подразделение"
     errors:
       models:
-        suppliers/TODO:
+        suppliers/item:
           attributes:
-            TODO:
+            code:
+              TODO: "TODO."
+            name:
               TODO: "TODO."
     models:
-      suppliers/TODO: "TODO"
+      suppliers/item: "Поставщик"
   controllers:
-    suppliers/api/v1/TODO:
-      TODO: "TODO."
+    suppliers/api/v1/items:
+      created: "TODO."
+      deleted: "TODO."
+      found: "TODO."
+      list: "TODO."
+      merged: "TODO."
+      moved: "TODO."
+      not_changed: "TODO."
+      not_found: "TODO."
+      updated: "TODO."
