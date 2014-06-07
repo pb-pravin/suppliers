@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    suppliers (0.0.1)
-      rails (~> 4.1.1)
+    suppliers (0.0.1.pre.alpha)
+      basic_api (~> 2.0.2.pre.rc2)
+      rails (~> 4.1)
 
 PATH
   remote: ../init
@@ -40,10 +41,33 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    basic_api (2.0.2.pre.rc2)
+      activemodel (~> 4.1)
+      colorize (~> 0.7)
+      jbuilder (~> 2.0)
+      wisper (~> 1.3)
     builder (3.2.2)
+    colorize (0.7.3)
+    coveralls (0.7.0)
+      multi_json (~> 1.3)
+      rest-client
+      simplecov (>= 0.7)
+      term-ansicolor
+      thor
+    database_cleaner (1.3.0)
+    diff-lcs (1.2.5)
+    docile (1.1.3)
     erubis (2.7.0)
+    factory_girl (4.4.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.4.1)
+      factory_girl (~> 4.4.0)
+      railties (>= 3.0.0)
     hike (1.2.3)
     i18n (0.6.9)
+    jbuilder (2.0.7)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -71,6 +95,28 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    rspec-collection_matchers (0.0.4)
+      rspec-expectations (>= 2.99.0.beta1)
+    rspec-core (2.99.0)
+    rspec-expectations (2.99.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.99.0)
+    rspec-rails (2.99.0)
+      actionpack (>= 3.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-collection_matchers
+      rspec-core (~> 2.99.0)
+      rspec-expectations (~> 2.99.0)
+      rspec-mocks (~> 2.99.0)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     sprockets (2.12.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -81,19 +127,27 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.9)
+    term-ansicolor (1.3.0)
+      tins (~> 1.0)
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    tins (1.3.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (1.2.1)
       thread_safe (~> 0.1)
+    wisper (1.3.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  coveralls
+  database_cleaner (~> 1.2)
+  factory_girl_rails (~> 4.4)
   init!
-  sqlite3
+  rspec-rails (~> 2.14)
+  sqlite3 (~> 1.3)
   suppliers!
