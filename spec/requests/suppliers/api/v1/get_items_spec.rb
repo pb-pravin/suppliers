@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Suppliers
   describe "GET suppliers/api/v1/items" do
-    
+
     # Начальные условия
     let!(:root) { create(:item, name: "Главснаб") }
     let!(:item) { create(:item, name: "Отдел поставки") }

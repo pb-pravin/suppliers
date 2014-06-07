@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Suppliers
   describe "POST suppliers/api/v1/items" do
-    
+
     # Маршрут и параметры запроса
     let!(:route)  { "suppliers/api/v1/items" }
     let!(:params) {{

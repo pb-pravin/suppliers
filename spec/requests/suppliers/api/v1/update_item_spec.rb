@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Suppliers
   describe "PATCH suppliers/api/v1/items/{id}" do
-    
+
     # Начальные условия
     let!(:item) { create(:item) }
 

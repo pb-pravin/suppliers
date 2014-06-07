@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Suppliers
   describe "PUT suppliers/api/v1/items" do
-    
+
     # Начальные условия
     let!(:item)   { create(:item) }
     let!(:parent) { create(:item) }

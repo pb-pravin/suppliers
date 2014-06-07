@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Suppliers
   describe "POST suppliers/api/v1/items/{id}" do
-    
+
     let!(:parent) { create(:item) }
 
     # Маршрут и параметры запроса
