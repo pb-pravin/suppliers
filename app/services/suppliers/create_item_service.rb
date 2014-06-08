@@ -28,18 +28,18 @@ module Suppliers
 
     # validate() { TODO }
 
-    def run
-      begin
-        # TODO
-        # publish TODO
-      rescue
-        # publish TODO
-      end
-    end
-
     private
 
       # Специфические (отдельно обрабатываемые) исключения
       # class TODO < Exception; end
+
+      def run
+        begin
+          # TODO
+          # publish TODO
+        rescue
+          # publish TODO
+        end
+      end
   end
 end

@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     suppliers (0.0.1.pre.alpha)
-      basic_api (~> 2.0.2.pre.rc2)
+      basic_api (~> 3.0.0.pre.alpha)
       rails (~> 4.1)
 
 PATH
@@ -41,7 +41,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    basic_api (2.0.2.pre.rc2)
+    basic_api (3.0.0.pre.alpha)
       activemodel (~> 4.1)
       colorize (~> 0.7)
       jbuilder (~> 2.0)

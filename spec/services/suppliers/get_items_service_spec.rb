@@ -5,58 +5,75 @@ module Suppliers
   describe GetItemsService do
 
     let!(:listener) { double "listener" }
-    let!(:params)   {{ TODO: TODO }}
+    let!(:division) { create(:item, code: "Кран") }
+    let!(:parent)   { create(:item, name: "Главпоставка") }
+    let!(:item)     { create(:item, name: "Сталькран") }
+    before{ division.update_attributes! parent: parent }
 
-    pending "#run" do
+    describe "#run!" do
 
-      context "с корректными параметрами" do
+      context "без фильтрации" do
 
-        let!(:service) { GetItemsService.new params }
+        let!(:service) { GetItemsService.new }
         before { service.subscribe listener }
 
-        it "TODO" do
-          expect{ service.run }.to TODO
-        end
-
-        it "публикует сообщение об успешном завершении операции" do
-          listener.should_receive(:TODO) do |result|
-            result.should TODO
+        it "публикует сообщение со списком всех поставщиков" do
+          listener.should_receive(:list) do |result|
+            result.should eq Item.all.order(lft: :asc, rgt: :desc)
           end
-          service.run
+          service.run!
         end
       end
 
-      context "с TODO" do
+      context "с фильтром по подстроке поиска" do
 
-        before { params[:TODO] = TODO }
-
-        let!(:service) { GetItemsService.new params }
+        let!(:service) { GetItemsService.new search: "ран" }
         before { service.subscribe listener }
 
-        it "TODO" do
-          expect{ service.run }.to TODO
-        end
-
-        it "публикует сообщение об ошибке" do
-          listener.should_receive(:error) do |messages|
-            messages.should_not be_blank
+        it "публикует сообщение со списком найденных поставщиков" do
+          listener.should_receive(:list) do |result|
+            result.should eq [division, item]
           end
-          service.run
+          service.run!
         end
       end
 
-      context "если TODO не найден" do
+      context "с фильтром по корневому подразделению" do
 
-        before { TODO.destroy! }
-
-        let!(:service) { GetItemsService.new params }
+        let!(:service) { GetItemsService.new root_id: parent.id }
         before { service.subscribe listener }
 
-        it "публикует сообщение, что TODO не найден" do
+        it "публикует сообщение со списком найденных поставщиков" do
+          listener.should_receive(:list) do |result|
+            result.should eq [parent, division]
+          end
+          service.run!
+        end
+      end
+
+      context "с фильтрами по корневому подразделению и подстроке" do
+
+        let!(:service) { GetItemsService.new root_id: parent.id }
+        before { service.subscribe listener }
+
+        it "публикует сообщение со списком найденных поставщиков" do
+          listener.should_receive(:list) do |result|
+            result.should eq [division]
+          end
+          service.run!
+        end
+      end
+
+      context "если корневое подразделение не найдено" do
+
+        let!(:service) { GetItemsService.new root_id: 0 }
+        before { service.subscribe listener }
+
+        it "публикует сообщение что запись не найдена" do
           listener.should_receive(:not_found) do |id|
-            id.should eq params[:TODO]
+            id.should eq 0
           end
-          service.run
+          service.run!
         end
       end
     end

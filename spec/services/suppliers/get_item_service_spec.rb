@@ -5,58 +5,36 @@ module Suppliers
   describe GetItemService do
 
     let!(:listener) { double "listener" }
-    let!(:params)   {{ TODO: TODO }}
+    let!(:item)     { create(:item) }
+    let!(:params)   {{ id: item.id }}
 
-    pending "#run" do
+    describe "#run!" do
 
       context "с корректными параметрами" do
 
         let!(:service) { GetItemService.new params }
         before { service.subscribe listener }
 
-        it "TODO" do
-          expect{ service.run }.to TODO
-        end
-
-        it "публикует сообщение об успешном завершении операции" do
-          listener.should_receive(:TODO) do |result|
-            result.should TODO
+        it "публикует сообщение :found" do
+          listener.should_receive(:found) do |result|
+            result.should eq item
           end
-          service.run
+          service.run!
         end
       end
 
-      context "с TODO" do
+      context "если поставщик не найден" do
 
-        before { params[:TODO] = TODO }
+        before { item.destroy! }
 
         let!(:service) { GetItemService.new params }
         before { service.subscribe listener }
 
-        it "TODO" do
-          expect{ service.run }.to TODO
-        end
-
-        it "публикует сообщение об ошибке" do
-          listener.should_receive(:error) do |messages|
-            messages.should_not be_blank
-          end
-          service.run
-        end
-      end
-
-      context "если TODO не найден" do
-
-        before { TODO.destroy! }
-
-        let!(:service) { GetItemService.new params }
-        before { service.subscribe listener }
-
-        it "публикует сообщение, что TODO не найден" do
+        it "публикует сообщение, что поставщик не найден" do
           listener.should_receive(:not_found) do |id|
-            id.should eq params[:TODO]
+            id.should eq params[:id]
           end
-          service.run
+          service.run!
         end
       end
     end
