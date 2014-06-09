@@ -3,6 +3,7 @@ class CreateSuppliersItems < ActiveRecord::Migration
     create_table :suppliers_items do |t|
       t.string  :name, null: false
       t.string  :code
+      t.boolean :active
       t.integer :depth
       t.integer :lft
       t.integer :rgt

@@ -3,4 +3,4 @@ source "https://rubygems.org"
 gemspec
 
 gem "coveralls", require: false
-gem "init", path: "../init"
+gem "chain_flow", git: "https://github.com/railsware/chain_flow"

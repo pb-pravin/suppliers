@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
   s.test_files       = Dir["spec/**/*", "Rakefile"]
   s.extra_rdoc_files = Dir["CHANGELOG.rdoc", "LICENSE.rdoc", "README.rdoc"]
 
-  s.add_runtime_dependency "rails",     "~> 4.1"
-  s.add_runtime_dependency "basic_api", "~> 3.0.0-alpha"
+  s.add_runtime_dependency "awesome_nested_set", "~> 3.0.0.rc.5"
+  s.add_runtime_dependency "basic_api",          "~> 3.0.0-alpha"
+  s.add_runtime_dependency "rails",              "~> 4.1"
+  s.add_runtime_dependency "backlinks",          "~> 0.0.1-alpha"
 
   s.add_development_dependency "sqlite3",            "~> 1.3"
   s.add_development_dependency "rspec-rails",        "~> 2.14"
