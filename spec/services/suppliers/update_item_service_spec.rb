@@ -8,8 +8,8 @@ module Suppliers
     let!(:item) { create(:item) }
     let!(:params)   {{
       id: item.id,
-      name: item.name,
-      code: item.code,
+      name: "Новое название",
+      code: "Новый код",
       active: false
     }}
 
@@ -57,7 +57,7 @@ module Suppliers
 
       context "с недопустимым кодом" do
 
-        before { create(:item, code: "") }
+        before { params[:code] = "" }
 
         let!(:service) { UpdateItemService.new params }
         before { service.subscribe listener }
@@ -76,7 +76,7 @@ module Suppliers
 
       context "с недопустимым названием" do
 
-        before { create(:item, name: "") }
+        before { params[:name] = "" }
 
         let!(:service) { UpdateItemService.new params }
         before { service.subscribe listener }

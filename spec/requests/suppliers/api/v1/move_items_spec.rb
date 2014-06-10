@@ -4,7 +4,7 @@ module Suppliers
   describe "PUT suppliers/api/v1/items/{id}" do
 
     # Начальные условия
-    let!(:parent) { create(:parent) }
+    let!(:parent) { create(:item) }
     let!(:item)   { create(:item) }
 
     # Маршрут и параметры запроса
@@ -20,7 +20,7 @@ module Suppliers
         response.status.should eq 200
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => true,
@@ -50,7 +50,7 @@ module Suppliers
         response.status.should eq 422
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -78,7 +78,7 @@ module Suppliers
         response.status.should eq 404
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -100,7 +100,7 @@ module Suppliers
         response.status.should eq 404
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,

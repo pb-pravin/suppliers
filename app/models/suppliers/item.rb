@@ -48,9 +48,9 @@ module Suppliers
       end
 
       def links_absent
-        return true unless links
+        return true if links.blank?
         errors.add :base, :has_links, code: code, name: name
-        return false
+        fail ActiveRecord::RecordInvalid.new self
       end
   end
 end

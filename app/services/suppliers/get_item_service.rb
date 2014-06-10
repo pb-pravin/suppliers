@@ -2,44 +2,48 @@
 
 module Suppliers
 
-  # Сервис TODO
+  # Сервис находит поставщика/подразделение
   #
   # Принимает параметры с ключами:
   #
-  # * <tt>TODO</tt> - TODO.
+  # * <tt>:id</tt> - ID записи для вывода.
   #
   # Перед добавлением выполняются следующие проверки:
   #
-  # * TODO.
+  # * запись существует
   #
   # Публикует одно из сообщений (вызывается метод подписчика):
   #
-  # * <tt>TODL</tt> - TODO.
+  # * <tt>found(item)</tt> - запись найдена;
+  # * <tt>not_found(id)</tt> - запись не найдена.
   #
   class GetItemService < BasicApi::Service
 
-    # allow_params TODO
-    # attr_reader  TODO
+    allow_params :id
+    attr_reader  :item
 
     def initialize(options = {})
       super
-      # TODO
+      @item = Item.find_by_id(id)
     end
 
-    # validate() { TODO }
-
-    def run
-      begin
-        # TODO
-        # publish TODO
-      rescue
-        # publish TODO
-      end
-    end
+    validate :item_found
 
     private
 
-      # Специфические (отдельно обрабатываемые) исключения
-      # class TODO < Exception; end
+      def run
+        validate!
+        publish :found, id
+      end
+
+      # ID записи для поиска
+      def id
+        @id ||= params["id"]
+      end
+
+      # Проверяет, что запись найдена
+      def item_found
+        fail NotFound.new id unless item
+      end
   end
 end

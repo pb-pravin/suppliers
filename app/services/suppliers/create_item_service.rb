@@ -2,44 +2,54 @@
 
 module Suppliers
 
-  # Сервис TODO
+  # Сервис регистрирует нового поставщика (подразделение)
   #
   # Принимает параметры с ключами:
   #
-  # * <tt>TODO</tt> - TODO.
+  # * <tt>:name</tt> - название поставщика;
+  # * <tt>:code</tt> - код поставщика;
+  # * <tt>:active</tt> - возможность выбирать поставщика в документах (true|false);
+  # * <tt>:parent_id</tt> - ссылка на вышестоящее подразделение/поставщика.
   #
   # Перед добавлением выполняются следующие проверки:
   #
-  # * TODO.
+  # * вышестоящее подразделение существует (если указан id).
   #
   # Публикует одно из сообщений (вызывается метод подписчика):
   #
-  # * <tt>TODL</tt> - TODO.
+  # * <tt>:created(item)</tt> - запись добавлена в справочник;
+  # * <tt>:not_found(id)</tt> - вышестоящее подразделение/поставщик не найдено;
+  # * <tt>:error(messages)</tt> - прочие ошибки.
   #
   class CreateItemService < BasicApi::Service
 
-    # allow_params TODO
-    # attr_reader  TODO
+    allow_params :name, :code, :active, :parent_id
+    attr_reader  :parent, :item
 
     def initialize(options = {})
       super
-      # TODO
+      @parent = Item.find_by_id(id) if id
+      @item   = Item.new params
     end
 
-    # validate() { TODO }
+    validate :parent_found
 
     private
 
-      # Специфические (отдельно обрабатываемые) исключения
-      # class TODO < Exception; end
-
       def run
-        begin
-          # TODO
-          # publish TODO
-        rescue
-          # publish TODO
-        end
+        validate!
+        item.save!
+        publish :created, item
+      end
+
+      # ID вышестоящего подразделения/поставщика
+      def id
+        @id ||= params["parent_id"].try(:to_i)
+      end
+
+      # Проверяет,что вышестоящее подразделение существует
+      def parent_found
+        fail NotFound.new id if id && !parent
       end
   end
 end

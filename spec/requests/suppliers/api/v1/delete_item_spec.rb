@@ -11,14 +11,14 @@ module Suppliers
 
     context "с корректными параметрами" do
 
-      before { delete route, params }
+      before { delete route }
 
       it "возвращает корректный ответ сервера" do
         response.should be_success
         response.status.should eq 200
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => true,
@@ -46,14 +46,14 @@ module Suppliers
     context "если на запись есть ссылки в базе данных" do
 
       before { create(:item, parent: item) }
-      before { delete route, params }
+      before { delete route }
 
       it "возвращает корректный ответ сервера" do
         response.should_not be_success
         response.status.should eq 422
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -73,14 +73,14 @@ module Suppliers
     context "если запись не найдена" do
 
       before { item.destroy! }
-      before { delete route, params }
+      before { delete route }
 
       it "возвращает корректный ответ сервера" do
         response.should_not be_success
         response.status.should eq 404
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,

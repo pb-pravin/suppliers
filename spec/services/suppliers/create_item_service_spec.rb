@@ -119,7 +119,7 @@ module Suppliers
 
       context "если вышестоящее подразделение не найдено" do
 
-        before { parent.destroy! }
+        before { params[:parent_id] = 0 }
 
         let!(:service) { CreateItemService.new params }
         before { service.subscribe listener }
@@ -130,7 +130,7 @@ module Suppliers
 
         it "публикует сообщение, что поставщик не найден" do
           listener.should_receive(:not_found) do |id|
-            id.should eq params[:parent_id]
+            id.should eq 0
           end
           service.run!
         end

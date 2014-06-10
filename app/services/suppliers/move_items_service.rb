@@ -2,44 +2,75 @@
 
 module Suppliers
 
-  # Сервис TODO
+  # Сервис перемещает выбранные подразделения в состав другого подразделения.
   #
   # Принимает параметры с ключами:
   #
-  # * <tt>TODO</tt> - TODO.
+  # * <tt>:parent_id</tt> - ID поставщика/подразделения, в состав которого 
+  #   переносятся подразделения.
+  # * <tt>:ids</tt> - список ID перемещаемых подразделений.
   #
   # Перед добавлением выполняются следующие проверки:
   #
-  # * TODO.
+  # * для перемещения выбрано хотя бы одно подразделение;
+  # * поставщик и все перемещаемые подразделения существуют.
   #
   # Публикует одно из сообщений (вызывается метод подписчика):
   #
-  # * <tt>TODL</tt> - TODO.
+  # * <tt>moved(item)</tt> - подразделения успешно перемещены;
+  # * <tt>not_found(id)</tt> - поставщик или одно из перемещаемых подразделений
+  #   не найдены;
+  # * <tt>error(message)</tt> - прочие ошибки при перемещении.
   #
   class MoveItemsService < BasicApi::Service
 
-    # allow_params TODO
-    # attr_reader  TODO
+    allow_params :parent_id, :ids
+    attr_reader  :parent, :items
 
     def initialize(options = {})
       super
-      # TODO
+      @parent = Item.find_by_id(parent_id)
+      @items  = Item.where id: ids
+      items.each{ |item| item.parent = parent }
     end
 
-    # validate() { TODO }
-
-    def run
-      begin
-        # TODO
-        # publish TODO
-      rescue
-        # publish TODO
-      end
-    end
+    validate :ids_present
+    validate :parent_found
+    validate :items_found
 
     private
 
-      # Специфические (отдельно обрабатываемые) исключения
-      # class TODO < Exception; end
+      def run
+        transaction do
+          validate!
+          items.map(&:save!)
+          publish :moved, parent.reload
+        end
+      end
+
+      # ID поставщика, в состав которого переносятся подразделения.
+      def parent_id
+        @parent_id ||= params["parent_id"].try(:to_i)
+      end
+
+      # Массив целочисленных ID подразделений.
+      def ids
+        @ids ||= Array(params["ids"]).map(&:to_i).compact.uniq
+      end
+
+      # Проверяет, что поставщик существует.
+      def parent_found
+        fail NotFound.new parent_id unless parent
+      end
+
+      # Проверяет, что все выбранные для переноса подразделения существуют.
+      def items_found
+        (ids - items.map(&:id)).each{ |id| fail NotFound.new id }
+      end
+
+      # Проверяет, что для переноса выбрано хотя бы одно подразделение.
+      def ids_present
+        errors.add :ids, :blank if ids.blank?
+      end
   end
 end

@@ -92,8 +92,7 @@ module Suppliers
       let!(:link)   { create(:link, item: parent) }
 
       it "возвращает список ссылок на поставщика в базе данных" do
-        links = parent.reload.links
-        links.should be_kind_of Array
+        links = parent.reload.links.map(&:record)
         links.include?(link).should be_truthy
         links.include?(item).should be_truthy
       end

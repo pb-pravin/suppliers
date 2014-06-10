@@ -25,7 +25,7 @@ module Suppliers
         response.status.should eq 201
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => true,
@@ -72,7 +72,7 @@ module Suppliers
         response.status.should eq 422
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -100,7 +100,7 @@ module Suppliers
         response.status.should eq 422
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -128,7 +128,7 @@ module Suppliers
         response.status.should eq 422
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,
@@ -156,7 +156,7 @@ module Suppliers
         response.status.should eq 404
       end
 
-      it "верстает корректный JSON" do
+      it "возвращает корректный JSON" do
         json = JSON.parse(response.body)
         json.should == {
           "success"  => false,

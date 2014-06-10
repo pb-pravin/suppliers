@@ -10,7 +10,7 @@ module Suppliers
     let!(:link)     { create(:link, item: item) }
     before{ item.update_attributes! parent: parent }
 
-    let!(:params)   {{ ids: Item.map(&:id) }}
+    let!(:params)   {{ ids: Item.all.map(&:id) }}
 
     describe "#run!" do
 
@@ -26,6 +26,7 @@ module Suppliers
         end
 
         it "перепривязывает ссылки на объединенную запись" do
+          service.run!
           link.reload.item.should eq parent
         end
 
