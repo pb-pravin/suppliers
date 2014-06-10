@@ -68,8 +68,9 @@ module Suppliers
       # к объединенной записи.
       def find_links
         sources.map(&:links).flatten.map do |link|
-          link.record.send "#{ link.foreign_key }=", target.id
-          link.record
+          record = link.record
+          record.send "#{ link.foreign_key }=", target.id
+          record
         end
       end
   end
