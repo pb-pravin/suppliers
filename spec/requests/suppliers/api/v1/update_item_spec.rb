@@ -36,7 +36,7 @@ module Suppliers
             "code" => "НН",
             "active" => true,
             "depth" => 0,
-            "parent" => nil,
+            "parent" => {},
             "divisions" => []
           }
         }
@@ -45,14 +45,14 @@ module Suppliers
       it "сохраняет изменения" do
         get route
         json = JSON.parse(response.body)
-        json["data"]["name"].should eq "Новое название"
-        json["data"]["code"].should eq "НН"
+        json["data"]["name"].should eq params["name"]
+        json["data"]["code"].should eq params["code"]
       end
     end
 
-    context "если поставщик уже зарегистрирован" do
+    context "если код уже зарегистрирован" do
 
-      let!(:item) { create(:item, code: "ОП") }
+      let!(:another_item) { create(:item, code: params["code"]) }
       before { patch route, params }
 
       it "возвращает корректный ответ сервера" do
@@ -65,7 +65,7 @@ module Suppliers
         json.should == {
           "success"  => false,
           "messages" => [
-            { "error" => "Поставщик/подразделение ОП: #{ item.name } уже зарегистрирован." }
+            { "error" => "Поставщик/подразделение #{ another_item.code }: #{ another_item.name } уже зарегистрирован." }
           ],
           "data" => {}
         }
@@ -74,8 +74,8 @@ module Suppliers
       it "не сохраняет изменения" do
         get route
         json = JSON.parse(response.body)
-        json["data"]["name"].should_not eq "Новое название"
-        json["data"]["code"].should_not eq "НН"
+        json["data"]["name"].should_not eq params["name"]
+        json["data"]["code"].should_not eq params["code"]
       end
     end
 

@@ -33,7 +33,7 @@ module Suppliers
             "code" => "ОП",
             "active" => true,
             "depth" => 0,
-            "parent" => nil,
+            "parent" => {},
             "divisions" => []
           }
         }

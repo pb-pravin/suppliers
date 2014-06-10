@@ -2,34 +2,14 @@ ru:
   activemodel:
     errors:
       models:
-        suppliers/create_item:
+        suppliers/merge_items_service:
           attributes:
-            TODO:
-              TODO: "TODO"
-        suppliers/delete_item:
-          attributes:
-            TODO:
-              TODO: "TODO"
-        suppliers/get_item:
-          attributes:
-            TODO:
-              TODO: "TODO"
-        suppliers/get_items:
-          attributes:
-            TODO:
-              TODO: "TODO"
-        suppliers/merge_items:
-          attributes:
-            TODO:
-              TODO: "TODO"
+            ids:
+              less_than_two: "Для объединения необходимо выбрать не менее двух поставщиков/подразделений."
         suppliers/move_items:
           attributes:
-            TODO:
-              TODO: "TODO"
-        suppliers/update_item:
-          attributes:
-            TODO:
-              TODO: "TODO"
+            ids:
+              blank: "Необходимо выбрать подразделения для включения в состав %{code}: %{name}."
   activerecord:
     attributes:
       models:
@@ -43,25 +23,23 @@ ru:
         suppliers/item:
           attributes:
             base:
-              has_links: "Перед удалением поставщика/подразделения %{ code }: %{ name } необходимо удалить все ссылки на запись в базе данных."
+              has_links: "Перед удалением поставщика/подразделения %{code}: %{name} необходимо удалить все ссылки на запись в базе данных."
             code:
               blank:   "Необходимо указать код поставщика/подразделения."
-              taken:   "Поставщик/подразделение %{ value }: %{ name } уже зарегистрирован."
+              taken:   "Поставщик/подразделение %{value}: %{name} уже зарегистрирован."
             name:
-              blank:   "Необходимо указать наименование поставщика/подразделения."
+              blank:   "Необходимо указать название поставщика/подразделения."
             parent:
-              invalid: "Поставщик/подразделение %{ code }: %{ name } не может быть частью своего подразделения %{ parent_code }: %{ parent_name }."
-              self:    "Поставщик/подразделение %{ code }: %{ name } не может быть подразделением самого себя."
+              invalid: "Поставщик/подразделение %{code}: %{name} не может быть частью своего подразделения %{parent_code}: %{parent_name}."
+              self:    "Поставщик/подразделение %{code}: %{name} не может быть подразделением самого себя."
     models:
       suppliers/item: "Поставщик"
   controllers:
     suppliers/api/v1/items:
-      created: "TODO."
-      deleted: "TODO."
-      found: "TODO."
-      list: "TODO."
-      merged: "TODO."
-      moved: "TODO."
-      not_changed: "TODO."
-      not_found: "TODO."
-      updated: "TODO."
+      created: "Поставщик/подразделение %{code}: %{name} добавлен в справочник."
+      deleted: "Поставщик/подразделение %{code}: %{name} удален."
+      merged: "Выбранные записи объединены c %{code}: %{name}."
+      moved: "Выбранные подразделения включены в состав %{code}: %{name}."
+      not_changed: "Изменения отсутствуют."
+      not_found: "Поставщик/подразделение с ID: %{id} не найден."
+      updated: "Поставщик/подразделение %{code}: %{name} сохранен."

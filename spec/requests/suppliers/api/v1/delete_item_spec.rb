@@ -31,7 +31,7 @@ module Suppliers
             "code" => item.code,
             "active" => item.active?,
             "depth" => 0,
-            "parent" => nil,
+            "parent" => {},
             "divisions" => []
           }
         }
@@ -45,7 +45,7 @@ module Suppliers
 
     context "если на запись есть ссылки в базе данных" do
 
-      before { create(:item, parent: item) }
+      before { create(:link, item: item) }
       before { delete route }
 
       it "возвращает корректный ответ сервера" do

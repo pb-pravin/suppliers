@@ -37,7 +37,7 @@ module Suppliers
             "name" => "Отдел поставки",
             "code" => "ОП",
             "active" => true,
-            "depth" => 0,
+            "depth" => 1,
             "parent" => {
               "id" => parent.id,
               "name" => parent.name,
@@ -114,7 +114,7 @@ module Suppliers
       it "не добавляет запись в справочник" do
         get check
         json = JSON.parse(response.body)
-        json["data"].should be_blank
+        json["data"].count.should eq 1
       end
     end
 
@@ -142,7 +142,7 @@ module Suppliers
       it "не добавляет запись в справочник" do
         get check
         json = JSON.parse(response.body)
-        json["data"].should be_blank
+        json["data"].count.should eq 1
       end
     end
 

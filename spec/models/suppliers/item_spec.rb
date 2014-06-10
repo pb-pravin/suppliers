@@ -131,6 +131,7 @@ module Suppliers
       end
 
       it "возвращает false если вышестоящее подразделение является ссылкой на сам объект" do
+        item.save!
         item.parent = item
         item.should_not be_valid
         item.should have_errors

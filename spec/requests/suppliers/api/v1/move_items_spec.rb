@@ -25,18 +25,31 @@ module Suppliers
         json.should == {
           "success"  => true,
           "messages" => [
-            { "success" => "TODO" }
+            { "success" => "Выбранные подразделения включены в состав #{ parent.code }: #{ parent.name }." }
           ],
           "data" => {
-            # TODO
+            "id"     => parent.id,
+            "name"   => parent.name,
+            "code"   => parent.code,
+            "active" => parent.active?,
+            "depth"  => 0,
+            "parent" => {},
+            "divisions" => [
+              {
+                "id"     => item.id,
+                "name"   => item.name,
+                "code"   => item.code,
+                "active" => item.active?
+              }
+            ]
           }
         }
       end
 
       it "добавляет подразделения" do
-        get check_route
+        get route
         json = JSON.parse(response.body)
-        json["data"]["divisions"].should == [item.id]
+        json["data"]["divisions"].first["id"].should == item.id
       end
     end
 
@@ -55,14 +68,14 @@ module Suppliers
         json.should == {
           "success"  => false,
           "messages" => [
-            { "error" => "Нельзя перенести поставщика/подразделение #{ item.id }: #{ item.name } в состав его собственного подразделения." }
+            { "error" => "Поставщик/подразделение #{item.code}: #{item.name} не может быть частью своего подразделения #{parent.code}: #{parent.name}." }
           ],
           "data" => {}
         }
       end
 
       it "не добавляет подразделения" do
-        get check_route
+        get route
         json = JSON.parse(response.body)
         json["data"]["divisions"].should be_blank
       end
@@ -83,7 +96,7 @@ module Suppliers
         json.should == {
           "success"  => false,
           "messages" => [
-            { "error" => "Поставщик/подразделени с ID: #{ parent.id } не найден." }
+            { "error" => "Поставщик/подразделение с ID: #{ parent.id } не найден." }
           ],
           "data" => {}
         }
@@ -105,7 +118,7 @@ module Suppliers
         json.should == {
           "success"  => false,
           "messages" => [
-            { "error" => "Поставщик/подразделени с ID: #{ item.id } не найден." }
+            { "error" => "Поставщик/подразделение с ID: #{ item.id } не найден." }
           ],
           "data" => {}
         }

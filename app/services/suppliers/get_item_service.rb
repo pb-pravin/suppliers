@@ -33,7 +33,7 @@ module Suppliers
 
       def run
         validate!
-        publish :found, id
+        publish :found, item
       end
 
       # ID записи для поиска

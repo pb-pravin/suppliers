@@ -34,8 +34,8 @@ module Suppliers
       items.each{ |item| item.parent = parent }
     end
 
-    validate :ids_present
     validate :parent_found
+    validate :ids_present
     validate :items_found
 
     private
@@ -70,7 +70,9 @@ module Suppliers
 
       # Проверяет, что для переноса выбрано хотя бы одно подразделение.
       def ids_present
-        errors.add :ids, :blank if ids.blank?
+        if ids.blank?
+          errors.add :ids, :blank, code: parent.code, name: parent.name
+        end
       end
   end
 end

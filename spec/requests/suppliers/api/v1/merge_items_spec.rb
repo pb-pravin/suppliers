@@ -35,7 +35,7 @@ module Suppliers
             "code"   => parent.code,
             "active" => parent.active?,
             "depth"  => 0,
-            "parent" => nil,
+            "parent" => {},
             "divisions" => [
               {
                 "id"     => div.id,
@@ -49,7 +49,7 @@ module Suppliers
       end
 
       it "объединяет записи" do
-        get check_route
+        get route
         json = JSON.parse(response.body)
         json["data"].count.should eq 2
       end

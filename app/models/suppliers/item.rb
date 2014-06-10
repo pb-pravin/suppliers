@@ -33,11 +33,12 @@ module Suppliers
       def code_unique
         return unless code
         return unless found = self.class.where("lower(code) = ?", code).first
-        errors.add :code, :taken, name: found.name unless found == self
+        errors.add :code, :taken, name: found.name unless found.id == id
       end
 
       def parent_is_not_self
-        errors.add :parent, :self, code: code, name: name if parent == self
+        return unless parent_id
+        errors.add :parent, :self, code: code, name: name if parent_id == id
       end
 
       def parent_is_not_division

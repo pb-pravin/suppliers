@@ -109,21 +109,21 @@ module Suppliers
           "success"  => true,
           "data" => [
             {
-              "id" => item.id,
-              "name" => item.name,
-              "code" => item.code,
-              "active" => item.active?,
-              "depth" => item.depth,
-              "parent_id" => nil,
-              "divisions" => []
-            },
-            {
               "id" => div.id,
               "name" => div.name,
               "code" => div.code,
               "active" => div.active?,
               "depth" => div.depth,
               "parent_id" => root.id,
+              "divisions" => []
+            },
+            {
+              "id" => item.id,
+              "name" => item.name,
+              "code" => item.code,
+              "active" => item.active?,
+              "depth" => item.depth,
+              "parent_id" => nil,
               "divisions" => []
             }
           ]
