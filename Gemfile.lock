@@ -13,22 +13,6 @@ PATH
       basic_api (~> 3.0.0.pre.alpha)
       rails (~> 4.1)
 
-PATH
-  remote: ../backlinks
-  specs:
-    backlinks (0.0.1.pre.rc1)
-      chain_flow (~> 0.0)
-      rails (~> 4.1)
-
-PATH
-  remote: ../basic_api
-  specs:
-    basic_api (3.0.0.pre.rc1)
-      activemodel (~> 4.1)
-      colorize (~> 0.7)
-      jbuilder (~> 2.0)
-      wisper (~> 1.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -61,6 +45,13 @@ GEM
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.0.rc.5)
       activerecord (>= 4.0.0, < 5)
+    backlinks (0.0.1.pre.rc1)
+      rails (~> 4.1)
+    basic_api (3.0.0.pre.alpha)
+      activemodel (~> 4.1)
+      colorize (~> 0.7)
+      jbuilder (~> 2.0)
+      wisper (~> 1.3)
     builder (3.2.2)
     colorize (0.7.3)
     coveralls (0.7.0)
@@ -80,7 +71,7 @@ GEM
       railties (>= 3.0.0)
     hike (1.2.3)
     i18n (0.6.9)
-    jbuilder (2.0.8)
+    jbuilder (2.1.0)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.1)
@@ -112,7 +103,7 @@ GEM
     rake (10.3.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rspec-collection_matchers (0.0.4)
+    rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.0)
     rspec-expectations (2.99.0)
@@ -159,8 +150,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  backlinks!
-  basic_api!
   chain_flow!
   coveralls
   database_cleaner (~> 1.2)
